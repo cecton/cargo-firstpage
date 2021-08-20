@@ -1,0 +1,17 @@
+[package]
+name = "cargo-firstpage"
+version = "0.0.0"
+authors = ["Cecile Tonglet <cecile.tonglet@cecton.com>"]
+license = "MIT OR Apache-2.0"
+edition = "2018"
+description = "Shows only the first page of rustc output"
+repository = "https://github.com/cecton/cargo-firstpage"
+homepage = "https://github.com/cecton/cargo-firstpage"
+readme = "README.md"
+keywords = ["first", "page", "head", "rustc"]
+categories = ["development-tools::cargo-plugins"]
+
+[dependencies]
+anyhow = "1"
+terminal_size = "0.1"
+textwrap = "0.14"
