@@ -54,6 +54,9 @@ fn main() -> Result<()> {
         buf.clear();
     }
 
+    let mut sink = std::io::sink();
+    let _ = std::io::copy(&mut output, &mut sink);
+
     if let Ok(status) = child.wait() {
         std::process::exit(status.code().unwrap_or_default());
     } else {
