@@ -7,7 +7,7 @@ Installation
 ------------
 
 ```
-cargo install cargo-first-page
+cargo install cargo-firstpage
 ```
 
 Usage
