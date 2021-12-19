@@ -61,7 +61,11 @@ fn main() -> Result<()> {
 
     command.arg(subcommand);
 
-    if SHOWS_ERRORS.contains(&subcommand) && args.iter().all(|arg| !SPECIAL_ARGS.contains(&&**arg))
+    if SHOWS_ERRORS.contains(&subcommand)
+        && args
+            .iter()
+            .take_while(|arg| *arg != "--")
+            .all(|arg| !SPECIAL_ARGS.contains(&&**arg))
     {
         command.arg("--message-format=json-diagnostic-rendered-ansi");
         // TODO: Piping stdout will not disable colors emitted by Cargo itself (as those are done
