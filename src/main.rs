@@ -32,6 +32,8 @@ const SHOWS_ERRORS: &[&str] = &[
     "rustc", "rustdoc", "t", "test",
 ];
 
+const SPECIAL_ARGS: &[&str] = &["--help", "-h", "--version", "-V"];
+
 fn main() -> Result<()> {
     let mut args = std::env::args().peekable();
     let _command = args.next();
@@ -47,6 +49,8 @@ fn main() -> Result<()> {
         Some(subcommand) => subcommand,
     };
 
+    let args = args.collect::<Vec<_>>();
+
     let (width, height) = if let Some((Width(width), Height(height))) = terminal_size() {
         (width as usize, height as usize)
     } else {
@@ -57,7 +61,8 @@ fn main() -> Result<()> {
 
     command.arg(subcommand);
 
-    if SHOWS_ERRORS.contains(&subcommand) {
+    if SHOWS_ERRORS.contains(&subcommand) && args.iter().all(|arg| !SPECIAL_ARGS.contains(&&**arg))
+    {
         command.arg("--message-format=json-diagnostic-rendered-ansi");
         // TODO: Piping stdout will not disable colors emitted by Cargo itself (as those are done
         // via stderr), but it can disable colors for programs that Cargo then spawns that use
