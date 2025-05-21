@@ -12,6 +12,5 @@ keywords = ["first", "page", "head", "rustc"]
 categories = ["development-tools::cargo-plugins"]
 
 [dependencies]
-anyhow = "1"
 terminal_size = "0.4"
 textwrap = "0.16"

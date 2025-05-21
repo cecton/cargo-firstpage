@@ -1,4 +1,3 @@
-use anyhow::{bail, Context, Result};
 use std::io::{BufRead, BufReader};
 use std::process::{Command, Stdio};
 use terminal_size::{terminal_size, Height, Width};
@@ -7,7 +6,7 @@ use textwrap::wrap;
 const PROMPT_SIZE: Option<&str> = option_env!("PROMPT_SIZE");
 const DEFAULT_PROMPT_SIZE: usize = 1;
 
-fn main() -> Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut args = std::env::args().peekable();
     let _command = args.next();
     args.next_if(|x| x.as_str() == "firstpage");
@@ -16,7 +15,7 @@ fn main() -> Result<()> {
     let (width, height) = if let Some((Width(width), Height(height))) = terminal_size() {
         (width as usize, height as usize)
     } else {
-        bail!("could not get terminal size");
+        return Err("could not get terminal size".into());
     };
 
     // Spawn the process, ensuring cargo will output colors
@@ -24,8 +23,7 @@ fn main() -> Result<()> {
         .env("CARGO_TERM_COLOR", "always")
         .args(args)
         .stderr(Stdio::piped())
-        .spawn()
-        .context("could not start cargo command")?;
+        .spawn()?;
     let mut output = BufReader::new(child.stderr.take().unwrap());
     let mut buf = String::new();
 
