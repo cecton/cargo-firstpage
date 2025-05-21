@@ -12,6 +12,14 @@ fn main() -> Result<()> {
     let _command = args.next();
     args.next_if(|x| x.as_str() == "firstpage");
 
+    // Query width and height of the terminal
+    let (width, height) = if let Some((Width(width), Height(height))) = terminal_size() {
+        (width as usize, height as usize)
+    } else {
+        bail!("could not get terminal size");
+    };
+
+    // Spawn the process, ensuring cargo will output colors
     let mut child = Command::new("cargo")
         .env("CARGO_TERM_COLOR", "always")
         .args(args)
@@ -19,25 +27,19 @@ fn main() -> Result<()> {
         .spawn()
         .context("could not start cargo command")?;
     let mut output = BufReader::new(child.stderr.take().unwrap());
-
     let mut buf = String::new();
+
+    // Skip the Download/Compiling/Finished/Running lines of cargo
     while output.read_line(&mut buf)? > 0 {
         if !buf.starts_with(' ') {
             break;
         }
-
         eprint!("{}", buf);
-
         buf.clear();
     }
     eprintln!();
 
-    let (width, height) = if let Some((Width(width), Height(height))) = terminal_size() {
-        (width as usize, height as usize)
-    } else {
-        bail!("could not get terminal size");
-    };
-
+    // Read and display the lines immediately until the limit is reached
     let mut count = 0;
     let space_around = 1 + PROMPT_SIZE
         .map(std::str::FromStr::from_str)
@@ -47,24 +49,18 @@ fn main() -> Result<()> {
     while output.read_line(&mut buf)? > 0 {
         let lines = wrap(buf.trim_end(), width);
         count += lines.len();
-
         if count > height - space_around {
             break;
         }
-
         for line in lines {
             eprintln!("{}", line);
         }
-
         buf.clear();
     }
 
+    // Discard the rest
     let mut sink = std::io::sink();
     let _ = std::io::copy(&mut output, &mut sink);
 
-    if let Ok(status) = child.wait() {
-        std::process::exit(status.code().unwrap_or_default());
-    } else {
-        Ok(())
-    }
+    std::process::exit(child.wait()?.code().unwrap_or_default())
 }
