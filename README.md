@@ -97,13 +97,13 @@ Forks are welcome — feel free to use, modify, and build on it as needed.
 
 ## Related Tools
 
-- [ograc](https://crates.io/crates/ograc): Shows diagnostic messages in reverse
-  order, so important ones appear first. You can scroll up to see less
+- [ograc](https://gitlab.com/lirnril/ograc): Shows diagnostic messages in
+  reverse order, so important ones appear first. You can scroll up to see less
   important ones.
 - [cargo-cut-diagnostics](https://github.com/SabrinaJewson/cargo-cut-diagnostics):
   Similar to `cargo-firstpage`, but keeps the progress bar and offers more
   options. The author claims it processes cargo output more accurately. Try
   this if you have issues with `cargo-firstpage`.
-- [bacon](https://crates.io/crates/bacon): Combines features of `cargo-watch`
+- [bacon](https://github.com/Canop/bacon): Combines features of `cargo-watch`
   with a small TUI that makes it easier to filter and read logs. Worth checking
   out if you want to improve the readability and scrolling of `rustc` output.
