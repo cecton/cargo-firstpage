@@ -73,6 +73,11 @@ In most cases, the useful error messages appear at the end of the output.
 However, sometimes `rustc` shows important information at the beginning, like
 how to disable a warning.
 
+## Contributing
+
+This project does not accept issues, pull requests, or other contributions.
+Forks are welcome — feel free to use, modify, and build on it as needed.
+
 ## Related Tools
 
 - [ograc](https://crates.io/crates/ograc): Shows diagnostic messages in reverse
