@@ -1,3 +1,8 @@
+[![Latest Version](https://img.shields.io/crates/v/cargo-firstpage.svg)](https://crates.io/crates/cargo-firstpage)
+![License](https://img.shields.io/crates/l/cargo-firstpage)
+[![LOC](https://tokei.rs/b1/github/cecton/cargo-firstpage)](https://github.com/cecton/cargo-firstpage)
+[![Dependency Status](https://deps.rs/repo/github/cecton/cargo-firstpage/status.svg)](https://deps.rs/repo/github/cecton/cargo-firstpage)
+
 # cargo-firstpage
 
 Show only the first page of `rustc` output.
