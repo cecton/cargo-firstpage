@@ -4,8 +4,8 @@ use std::process::{Command, Stdio};
 use terminal_size::{terminal_size, Height, Width};
 use textwrap::wrap;
 
-// This probably depends on the user's prompt size
-const SPACE_AROUND: usize = 2;
+const PROMPT_SIZE: Option<&str> = option_env!("PROMPT_SIZE");
+const DEFAULT_PROMPT_SIZE: usize = 1;
 
 fn main() -> Result<()> {
     let mut args = std::env::args().peekable();
@@ -39,11 +39,16 @@ fn main() -> Result<()> {
     };
 
     let mut count = 0;
+    let space_around = 1 + PROMPT_SIZE
+        .map(std::str::FromStr::from_str)
+        .map(Result::ok)
+        .flatten()
+        .unwrap_or(DEFAULT_PROMPT_SIZE);
     while output.read_line(&mut buf)? > 0 {
         let lines = wrap(buf.trim_end(), width);
         count += lines.len();
 
-        if count > height - SPACE_AROUND {
+        if count > height - space_around {
             break;
         }
 

@@ -67,6 +67,23 @@ fail -F /tmp/logs
 This setup keeps your program's stderr output scrolling while only showing the
 first page of build messages.
 
+## Troubleshooting
+
+If your shell prompt takes up more than one line, `cargo-firstpage` might
+miscalculate how much space is available for output. To fix this, you can set
+the `PROMPT_SIZE` compilation parameter when installing the tool.
+
+### Example
+
+If your prompt is 2 lines high:
+
+```bash
+PROMPT_SIZE=2 cargo install cargo-firstpage --force
+```
+
+Adjust the value of `PROMPT_SIZE` to match the number of lines your prompt
+uses.
+
 ## Limitations
 
 In most cases, the useful error messages appear at the end of the output.
