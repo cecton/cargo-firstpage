@@ -61,7 +61,7 @@ CARGO_TERM_COLOR=always cargo watch \
 And this in another terminal:
 
 ```bash
-fail -F /tmp/logs
+tail -F /tmp/logs
 ```
 
 This setup keeps your program's stderr output scrolling while only showing the
